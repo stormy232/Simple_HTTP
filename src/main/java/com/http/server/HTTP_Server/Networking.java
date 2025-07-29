@@ -1,7 +1,7 @@
 package HTTP_Server;
 
 import HTTP_Parser.*;
- import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -84,9 +84,12 @@ private static class ClientSocket extends Thread {
       String Filename = reader.GET_URI();
       switch (reader.HTTP_REQUEST()) {
           case "GET":
-              int[] output = HTTP_METHODS.GET(Filename);
-              write(HTTP_METHODS.HEAD(Filename));
-              write(output);
+              // int[] output = HTTP_METHODS.GET(Filename);
+              System.out.println(Filename);
+              System.out.println(HTTP_METHODS.HEAD("."));
+              write(HTTP_METHODS.HEAD("."));
+              String [] Files = Load_Dir_And_Files.List_Files(".");
+              write(Load_Dir_And_Files.HTML(Files, "."));
               break;
           case "HEAD":
               write(HTTP_METHODS.HEAD(Filename));
