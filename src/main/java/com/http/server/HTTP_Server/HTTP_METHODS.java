@@ -40,14 +40,20 @@ public class HTTP_METHODS{
     public static String HEAD(String filename){ //Should Just Instantiate a HTTP response object (maybe)
         String Status_Code;
         String Content_Length;
+        String Mime_Type;
         try{
             File file = new File(filename);
-            if (file.exists() == false) {
+            if (file.isDirectory() == true){
+                Mime_Type = "text/html";
+            }
+            else if (file.exists() == false) {
                 throw new FileNotFoundException("File Doesn't Exist");
+            }
+            else{
+                Mime_Type = Http_Reader.Mime_Type_Check(filename);
             }
             Content_Length = Long.toString(file.length());
             Status_Code = "200";
-            String Mime_Type = Http_Reader.Mime_Type_Check(filename);
             return Http_Reader.Response(Status_Code, Mime_Type, Content_Length, 1);
         }
         catch(Exception e){
