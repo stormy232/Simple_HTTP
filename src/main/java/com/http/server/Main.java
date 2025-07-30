@@ -1,5 +1,7 @@
-import HTTP_Parser.*;
-import HTTP_Server.*;
+package com.http.server;
+
+import com.http.server.HTTP_Parser.*;
+import com.http.server.HTTP_Server.*; 
 
 public class Main {
 

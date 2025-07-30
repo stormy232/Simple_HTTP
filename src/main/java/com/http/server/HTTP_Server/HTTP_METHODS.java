@@ -1,40 +1,40 @@
-package HTTP_Server;
+package com.http.server.HTTP_Server;
 
-import HTTP_Parser.Http_Reader;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class HTTP_METHODS{
-    public static int[] GET(String filename) {
-        try {
-            File file;
-            if(filename.equals(""))
-            {
-                file = new File("index.html");
-            }
-            else{
-                file = new File(filename);
-                if (file.exists() == false) {
-                    throw new FileNotFoundException("File Doesn't Exist");
-                }
-            }
-            BufferedInputStream Reader = new BufferedInputStream(new FileInputStream(filename));        
-            long length = file.length();
-            int data = 0;
-            int[] Contents = new int[(int)length];
-            for (int i = 0; i < length; i++){
-                Contents[i] = (byte)Reader.read();
-            }
+import com.http.server.HTTP_Parser.Http_Reader;
+import com.http.server.HTTP_Parser.Load_Dir_And_Files;
 
-            return Contents;
-        } 
+public class HTTP_METHODS{
+    public static BufferedInputStream GET(String filename) throws FileNotFoundException{
+
+        //TODO - Contents Should Return a smaller buffer maybe 4kib buffer
+        //Add RootPath Environment Variable as an Option - Also start to utilize RootPath variable
+
+        String RootPath = "/home/dani/Documents/HTTP_JAVA_SERVER";
+        File file = new File(filename);
+        file = file.isDirectory() ? new File("Ouput.tmpl") : file;    
+
+  
+        BufferedInputStream Reader = new BufferedInputStream(new FileInputStream(filename));        
+        return Reader;
         
-        catch (Exception e) {
-            System.out.println(filename);
-            return new int[0];
+  
+/*
+        catch(FileNotFoundException e){
+            System.err.println("");
+            return new BufferedInputStream();
         }
+
+        catch(IOException e ){
+            System.err.println("");
+            return new BufferedInputStream();
+        }
+*/
+        
     }
 
     public static String HEAD(String filename){ //Should Just Instantiate a HTTP response object (maybe)
@@ -45,6 +45,13 @@ public class HTTP_METHODS{
             File file = new File(filename);
             if (file.isDirectory() == true){
                 Mime_Type = "text/html";
+            try {
+                Load_Dir_And_Files.HTML(Load_Dir_And_Files.List_Files(filename));
+                }
+              catch(FileNotFoundException e){
+                System.err.println("Error Writing to Output Template File");
+                }
+                file = new File("Output.tmpl");
             }
             else if (file.exists() == false) {
                 throw new FileNotFoundException("File Doesn't Exist");

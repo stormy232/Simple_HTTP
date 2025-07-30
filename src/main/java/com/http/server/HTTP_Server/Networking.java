@@ -1,12 +1,13 @@
-package HTTP_Server;
+package com.http.server.HTTP_Server;
 
-import HTTP_Parser.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.http.server.HTTP_Parser.Http_Reader;
 
 public class Networking{
 
@@ -67,14 +68,14 @@ private static class ClientSocket extends Thread {
       catch(IOException e) {throw new RuntimeException("Issue Handling Client reading",e);}
     }
 
-    public void write(int[] Message) {
+    public void send(int[] Message) {
        for(int i = 0; i < Message.length; i++){
         try {out.write(Message[i]);}
         catch(IOException e) {System.err.println("Issue Sending Message To Client");}       
        }
     }
 
-    public void write(String Message){
+    public void send(String Message){
       try {out.write(Message.getBytes());}
       catch(IOException e) {System.err.println("Issue Sending Message To Client");}
     }
@@ -86,16 +87,17 @@ private static class ClientSocket extends Thread {
           case "GET":
               // int[] output = HTTP_METHODS.GET(Filename);
               System.out.println(Filename);
-              System.out.println(HTTP_METHODS.HEAD("."));
-              write(HTTP_METHODS.HEAD("."));
-              String [] Files = Load_Dir_And_Files.List_Files(".");
-              write(Load_Dir_And_Files.HTML(Files, "."));
+              Filename = Filename.equals("") ? "." : Filename; //For This we can add a mapping that GET has to search potentially
+              System.out.println(HTTP_METHODS.HEAD(Filename));
+              send(HTTP_METHODS.HEAD(Filename));
+              // int [] data = HTTP_METHODS.GET(Filename);   
+              send(data);
               break;
           case "HEAD":
-              write(HTTP_METHODS.HEAD(Filename));
+              send(HTTP_METHODS.HEAD(Filename));
               break;
           case "OPTIONS":
-              write(HTTP_METHODS.OPTIONS());
+              send(HTTP_METHODS.OPTIONS());
               break;
           default:
               throw new AssertionError();

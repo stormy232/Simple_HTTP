@@ -1,4 +1,4 @@
-package HTTP_Parser;
+package com.http.server.HTTP_Parser;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
