@@ -18,6 +18,8 @@ public class Load_Dir_And_Files{
     public static void HTML(List<String> Files) throws FileNotFoundException{
 
       HashMap<String, Object> context = new HashMap();
+   //   String RootPath = "/home/dani/Documents/HTTP_JAVA_SERVER/";
+      Files.replaceAll(s->s+"/");
       context.put("files",Files);
 
       FileOutputStream output = new FileOutputStream("Output.tmpl");

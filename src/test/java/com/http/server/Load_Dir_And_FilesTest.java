@@ -5,13 +5,13 @@
 
 package com.http.server;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
-
-import com.http.server.HTTP_Parser.Load_Dir_And_Files;
 
 import org.junit.jupiter.api.Test;
+
+import com.http.server.HTTP_Parser.Load_Dir_And_Files;
 
 /**
  *
@@ -25,8 +25,6 @@ public class Load_Dir_And_FilesTest {
 
             List<String> SampleFileList = new ArrayList(Arrays.asList("Hello","Therefore"));
             Load_Dir_And_Files.HTML(SampleFileList);
-            String HTML = "<!Doctype Html>\n<html>\n<head>\n<title> \nWebserver \n</title>\n</head>\n <body>\n<ul>\n<li> <a href = Hello> Hello </a> </li>\n<li> <a href = Therefore> Therefore </a> </li>\n<ul>\n</body>\n</html>";
-            assertEquals ()
         } 
         catch (Exception e) {
             

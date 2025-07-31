@@ -14,26 +14,13 @@ public class HTTP_METHODS{
         //TODO - Contents Should Return a smaller buffer maybe 4kib buffer
         //Add RootPath Environment Variable as an Option - Also start to utilize RootPath variable
 
-        String RootPath = "/home/dani/Documents/HTTP_JAVA_SERVER";
+        filename = filename.equals("") ? "." : filename;    
         File file = new File(filename);
-        file = file.isDirectory() ? new File("Ouput.tmpl") : file;    
+        filename = file.isDirectory() ? "Output.tmpl" : filename;    
 
   
         BufferedInputStream Reader = new BufferedInputStream(new FileInputStream(filename));        
         return Reader;
-        
-  
-/*
-        catch(FileNotFoundException e){
-            System.err.println("");
-            return new BufferedInputStream();
-        }
-
-        catch(IOException e ){
-            System.err.println("");
-            return new BufferedInputStream();
-        }
-*/
         
     }
 
@@ -41,17 +28,18 @@ public class HTTP_METHODS{
         String Status_Code;
         String Content_Length;
         String Mime_Type;
+        filename = filename.equals("") ? "." : filename;
         try{
             File file = new File(filename);
             if (file.isDirectory() == true){
                 Mime_Type = "text/html";
-            try {
-                Load_Dir_And_Files.HTML(Load_Dir_And_Files.List_Files(filename));
-                }
-              catch(FileNotFoundException e){
-                System.err.println("Error Writing to Output Template File");
-                }
-                file = new File("Output.tmpl");
+                try {
+                    Load_Dir_And_Files.HTML(Load_Dir_And_Files.List_Files(filename));
+                    }
+                catch(FileNotFoundException e){
+                    System.err.println("Error Writing to Output Template File");
+                    }
+                    file = new File("Output.tmpl");
             }
             else if (file.exists() == false) {
                 throw new FileNotFoundException("File Doesn't Exist");
@@ -61,11 +49,13 @@ public class HTTP_METHODS{
             }
             Content_Length = Long.toString(file.length());
             Status_Code = "200";
+            System.out.println(Http_Reader.Response(Status_Code, Mime_Type, Content_Length, 1));
             return Http_Reader.Response(Status_Code, Mime_Type, Content_Length, 1);
         }
         catch(Exception e){
             Status_Code = "404";
             Content_Length = "0";
+            System.out.println(Http_Reader.Response(Status_Code, "NULL", Content_Length, -1));
             return Http_Reader.Response(Status_Code, "NULL", Content_Length, -1);
         }
 
