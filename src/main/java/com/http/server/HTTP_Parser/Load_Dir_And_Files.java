@@ -1,26 +1,42 @@
-package HTTP_Parser;
+package com.http.server.HTTP_Parser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 
 public class Load_Dir_And_Files{
     
-    public static String HTML(String [] Files, String Path){
-        String Template = "<!Doctype Html>\n<html>\n<title> %s </title>\n";
-        String Result = String.format(Template,Path);
-        StringBuilder Table = new StringBuilder();
+    public static void HTML(List<String> Files) throws FileNotFoundException{
 
-        for(int i = 0; i < Files.length; i++){
-            String Row = "<table> <td> <a href=%S> %S </a> </td>\n </table>";
-            String File = Files[i];
-            Table.append(String.format(Row,File,File));
-        }
-        System.out.println(Result + Table.toString());
-        return (Result + Table.toString() + "</body>\n</html>");
+      HashMap<String, Object> context = new HashMap();
+   //   String RootPath = "/home/dani/Documents/HTTP_JAVA_SERVER/";
+      Files.replaceAll(s->s+"/");
+      context.put("files",Files);
+
+      FileOutputStream output = new FileOutputStream("Output.tmpl");
+
+      MustacheFactory mf = new DefaultMustacheFactory();
+      Mustache mus = mf.compile("/home/dani/Documents/HTTP_JAVA_SERVER/src/main/resources/index.tmpl");
+      try{
+      mus.execute(new OutputStreamWriter(output), context).flush();
+      }
+      catch(IOException e){
+        System.err.println("Damn");
+      }
     }
 
-    public static String[] List_Files(String Path){
+    public static List<String> List_Files(String Path){
         File Directory = new File(Path);
-        return Directory.list();
+        return Arrays.asList(Directory.list());
     }
 
    /* public static void main(String[] args) {

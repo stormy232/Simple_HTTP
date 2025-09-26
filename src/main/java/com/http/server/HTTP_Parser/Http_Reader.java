@@ -1,4 +1,4 @@
-package HTTP_Parser;
+package com.http.server.HTTP_Parser;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -6,9 +6,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+//Server Needs to decode spaces and what not (Issue Downloading Files with Spaces)
+
+
+
 public class Http_Reader{
 
-    public static Map<String, String> MIME_TYPES = Map.of(".png","image/png",
+    private static Map<String, String> MIME_TYPES = Map.of(".png","image/png",
                                             ".jpg", "image/jpeg",
                                             ".html", "text/html",
                                             ".txt", "text/plain",
@@ -19,6 +23,7 @@ public class Http_Reader{
                                             ".pdf", "application/pdf",
                                             "Default", "text/plain");
 
+    private static String RootPath = "/home/dani/Documents/HTTP_JAVA_SERVER/";
     private String Request_Line;
     private String Body;
     public HashMap<String,String> Headers = new HashMap<>();
@@ -84,7 +89,7 @@ public class Http_Reader{
         final String Content = "Content-Type: " + Mime_Type + "\n";
         final String CL = "Content-Length: " + Content_Length + "\n";
         if (success != 1) {return Response+Content+CL+"\n";}
-        return Response + Server + Date + Content + CL +"\n";
+        return Response + Server + Date + Content + CL+"\n";
     }
 
     public static String Mime_Type_Check(String filename){
