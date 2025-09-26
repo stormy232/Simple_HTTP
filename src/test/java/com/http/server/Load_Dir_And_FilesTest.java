@@ -29,6 +29,16 @@ public class Load_Dir_And_FilesTest {
         catch (Exception e) {
             
         }
+
+  }
+
+    @Test
+    public void HTTP_RESPONSE(){
+        String Message = "POST /users HTTP/1.1\nHost: example.com\nContent-Type: application/x-www-form-urlencoded\nContent-Length: 49\n\nname=FirstName+LastName&email=bsmth%40example.com";
+
+
+
     }
+   
 
 }
